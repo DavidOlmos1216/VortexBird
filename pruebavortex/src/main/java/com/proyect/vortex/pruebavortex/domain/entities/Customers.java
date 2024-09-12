@@ -12,16 +12,17 @@ import jakarta.persistence.Table;
 public class Customers {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(unique = true, nullable = true)
     private Integer id;
 
     @Column(nullable = true)
     private String name;
 
-    @Column(nullable = true)
+    @Column(nullable = false, unique = true)
     private String email;
 
     private String phone;
+    @Column(nullable = false)
+    private String password;
 
     @Column(name = "is_active")
     private Boolean isActive;
@@ -29,11 +30,12 @@ public class Customers {
     public Customers() {
     }
 
-    public Customers(Integer id, String name, String email, String phone, Boolean isActive) {
+    public Customers(Integer id, String name, String email, String phone, String password, Boolean isActive) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.password = password;
         this.isActive = isActive;
     }
 
@@ -69,6 +71,14 @@ public class Customers {
         this.phone = phone;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Boolean getIsActive() {
         return isActive;
     }
@@ -79,8 +89,8 @@ public class Customers {
 
     @Override
     public String toString() {
-        return "Customers [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", isActive="
-                + isActive + "]";
+        return "Customers [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password="
+                + password + ", isActive=" + isActive + "]";
     }
 
 }

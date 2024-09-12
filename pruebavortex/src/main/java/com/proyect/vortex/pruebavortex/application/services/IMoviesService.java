@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.proyect.vortex.pruebavortex.application.datatransferobject.MoviesDTO;
 
-public interface MoviesService {
+public interface IMoviesService {
 
     MoviesDTO createMovies(MoviesDTO moviesDTO);
-    MoviesDTO getMoviesById(int id) throws Exception;
+    MoviesDTO updateMovie(MoviesDTO moviesDTO);
+    MoviesDTO getMoviesById(int id);
     List<MoviesDTO> getMovies();
+    List<MoviesDTO> getMoviesByName(String movieName);
 
 }

@@ -10,6 +10,7 @@ public class TicketsDTO {
     private Date purchaseDate;
     private int quantity;
     private int totalPrice;
+    private CustomersDTO customersDTO;
 
     public TicketsDTO() {
     }
@@ -70,6 +71,14 @@ public class TicketsDTO {
 
     public void setTotalPrice(int totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public CustomersDTO getCustomersDTO() {
+        return customersDTO;
+    }
+
+    public void setCustomersDTO(CustomersDTO customersDTO) {
+        this.customersDTO = customersDTO;
     }
 
     @Override

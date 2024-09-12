@@ -2,12 +2,12 @@ package com.proyect.vortex.pruebavortex.application.services.impl;
 
 import java.util.List;
 
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyect.vortex.pruebavortex.application.datatransferobject.CustomersDTO;
 import com.proyect.vortex.pruebavortex.application.mappers.CustomersMapper;
-import com.proyect.vortex.pruebavortex.application.services.CustomersService;
+import com.proyect.vortex.pruebavortex.application.services.ICustomersService;
 import com.proyect.vortex.pruebavortex.domain.exceptions.NotFoundException;
 import com.proyect.vortex.pruebavortex.infrastructure.repositories.CustomersRepository;
 
@@ -15,16 +15,15 @@ import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
-public class CustomersServiceImpl implements CustomersService {
+public class CustomersServiceImpl implements ICustomersService {
 
     private final CustomersRepository customersRepository;
     private final CustomersMapper customersMapper;
 
-    // @Autowired
+    @Autowired
     public CustomersServiceImpl(
             CustomersRepository customersRepository,
             CustomersMapper customersMapper) {
-        super();
         this.customersRepository = customersRepository;
         this.customersMapper = customersMapper;
     }
@@ -43,12 +42,12 @@ public class CustomersServiceImpl implements CustomersService {
     }
 
     @Override
-    public CustomersDTO updateCustomer(int id, CustomersDTO customersDTO) throws Exception {
-        var customer = customersRepository.findById(id).orElseThrow(() -> new NotFoundException("Customer not found"));
-
+    public CustomersDTO updateCustomer(CustomersDTO customersDTO) throws Exception {
+        var customer = customersRepository.findByEmail(customersDTO.getEmail()).orElseThrow(() -> new NotFoundException("Customer not found"));
         customer.setName(customersDTO.getName());
         customer.setEmail(customersDTO.getEmail());
-
+        customer.setPhone(customersDTO.getPhone());
+        customer.setIsActive(customersDTO.isActive());
         customer = customersRepository.save(customer);
         return customersMapper.toDTO(customer);
     }
@@ -64,6 +63,15 @@ public class CustomersServiceImpl implements CustomersService {
     public List<CustomersDTO> getAllCustomers() {
         var customers = customersRepository.findAll();
         return customersMapper.toDTO(customers);
+    }
+
+    @Override
+    public boolean disabledCustomer(int idCustomer) throws Exception {
+        if (idCustomer < 1) throw new NotFoundException();
+        CustomersDTO customers = getCustomerById(idCustomer);
+        customers.setActive(!customers.isActive());
+        customers = updateCustomer(customers);
+        return customers.isActive();
     }
 
 }

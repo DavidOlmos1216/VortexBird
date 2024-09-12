@@ -1,11 +1,26 @@
+app:
+    jwt.secret: 
+    client.url: http://localhost:4200/*
+
 spring:
+    mail:
+        host: smtp.gmail.com
+        port: 587
+        username: mariano970419@gmail.com
+        password: frjm wzhh qtgm vadv
+        properties:
+            mail:
+                smtp:
+                    auth: true
+                    starttls.enable: true
+
     application:
         name: pruebavortex
 
     datasource:
         url: jdbc:postgresql://localhost:5432/DB_buyTickets
-        username: soporte
-        password: soporte123
+        username: desarrollo
+        password: desarrollo
         driver-class-name: org.postgresql.Driver
     jpa:
         hibernate:
